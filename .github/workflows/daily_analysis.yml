@@ -188,6 +188,17 @@ jobs:
             reports/
             logs/
           retention-days: 30
+
+      - name: 发送分析报告到Telegram
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          message: |
+          message_file: repotts/*
       
       - name: 显示运行结果
         if: always()
