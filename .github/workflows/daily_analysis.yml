@@ -204,7 +204,7 @@ jobs:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           message: |
-          message_file: repotts/market_review_$DATE.md
+          message_file: repotts/market_review_${{ env.DATE }}.md
 
       - name: 发送分析报告到Telegram
         env:
@@ -216,7 +216,7 @@ jobs:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           message: |
-          message_file: repotts/report_$DATE.md
+          message_file: repotts/report_${{ env.DATE }}.md
       
       - name: 显示运行结果
         if: always()
