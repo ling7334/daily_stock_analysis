@@ -194,28 +194,29 @@ jobs:
           DATE=$(date +'%Y%m%d')
           echo "DATE=$DATE" >> $GITHUB_ENV
 
-
       - name: 发送市场报告到Telegram
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          DATE: ${{ env.DATE }}
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           message: |
-          message_file: repotts/market_review_${{ github.env.date }}.md
+          message_file: repotts/market_review_$DATE.md
 
       - name: 发送分析报告到Telegram
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          DATE: ${{ env.DATE }}
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           message: |
-          message_file: repotts/report_${{ github.env.date }}.md
+          message_file: repotts/report_$DATE.md
       
       - name: 显示运行结果
         if: always()
