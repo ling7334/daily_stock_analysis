@@ -189,6 +189,23 @@ jobs:
             logs/
           retention-days: 30
 
+      - name: 获取日期
+        run: |
+          DATE=$(date +'%Y%m%d')
+          echo "DATE=$DATE" >> $GITHUB_ENV
+
+
+      - name: 发送市场报告到Telegram
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          message: |
+          message_file: repotts/market_review_${{ github.env.date }}.md
+
       - name: 发送分析报告到Telegram
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -198,7 +215,7 @@ jobs:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           message: |
-          message_file: repotts/*
+          message_file: repotts/report_${{ github.env.date }}.md
       
       - name: 显示运行结果
         if: always()
